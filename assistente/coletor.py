@@ -96,6 +96,7 @@ def fazer_login(pagina):
             lambda u: "login-alunos" not in u and "escolha-de-perfil" not in u,
             timeout=25000,
         )
+        registrar("login_ok")
         return True
     except Exception as erro:
         registrar("login_falhou etapa=" + type(erro).__name__ + " url=" + pagina.url.split("?")[0])
@@ -105,19 +106,40 @@ def fazer_login(pagina):
 def coletar(visivel=False):
     espera = 180 if visivel else 70
     achado = {}
+    info = {}
     tentou_login = False
 
     def ao_responder(resp):
         req = resp.request
         caminho = resp.url.split("?")[0]
+        if "edusp-api" in caminho and "/room/user" in caminho:
+            try:
+                d = resp.json()
+                info["sala"] = "status=" + str(resp.status) + " tipo=" + type(d).__name__ + " n=" + str(len(d))
+            except Exception:
+                info["sala"] = "status=" + str(resp.status) + " sem-json"
         if req.method == "GET" and "edusp-api.ip.tv" in caminho and caminho.endswith("/tms/task/todo"):
             achado["req"] = req
+
+    vistas = []
+
+    def ao_requisicao(req):
+        u = req.url.split("?")[0]
+        if "edusp-api" in u or "sedintegracoes" in u:
+            vistas.append(req.method + " " + u.replace("https://", ""))
 
     with sync_playwright() as p:
         ctx = p.firefox.launch_persistent_context(str(PERFIL), headless=not visivel)
         try:
             ctx.on("response", ao_responder)
+            ctx.on("request", ao_requisicao)
             pagina = ctx.pages[0] if ctx.pages else ctx.new_page()
+            pagina.goto(URL_LOGIN, wait_until="domcontentloaded", timeout=30000)
+            try:
+                pagina.evaluate("localStorage.clear(); sessionStorage.clear()")
+            except Exception:
+                pass
+            ctx.clear_cookies(domain=re.compile("educacao"))
             pagina.goto(URL_TAREFAS, wait_until="domcontentloaded", timeout=30000)
             for i in range(espera * 2):
                 if "req" in achado:
@@ -127,13 +149,22 @@ def coletar(visivel=False):
                     if not tentou_login and tem_credenciais():
                         tentou_login = True
                         if fazer_login(pagina):
-                            pagina.goto(URL_TAREFAS, wait_until="domcontentloaded", timeout=30000)
+                            pagina.wait_for_timeout(5000)
+                            try:
+                                pagina.get_by_text("Tarefas", exact=True).first.click(timeout=5000)
+                            except Exception:
+                                pagina.goto(URL_TAREFAS, wait_until="domcontentloaded", timeout=30000)
                             continue
                         if not visivel:
                             return "login_falhou", []
                     elif not visivel:
                         return ("login_falhou" if tentou_login else "precisa_login"), []
-                elif i == 60 and not visivel:
+                elif i == 30 and not visivel:
+                    try:
+                        pagina.get_by_text("Tarefas", exact=True).first.click(timeout=3000)
+                    except Exception:
+                        pass
+                elif i == 80 and not visivel:
                     try:
                         pagina.reload(wait_until="domcontentloaded", timeout=30000)
                     except Exception:
@@ -141,6 +172,12 @@ def coletar(visivel=False):
                 pagina.wait_for_timeout(500)
             if "req" not in achado:
                 registrar("sem_dados url=" + pagina.url.split("?")[0] + " titulo=" + pagina.title())
+                registrar("requisicoes: " + " , ".join(sorted({v for v in vistas if "edusp-api" in v})) + " total=" + str(len(vistas)) + " sala=" + str(info.get("sala")))
+                try:
+                    pagina.screenshot(path=str(CACHE / "ultima.png"))
+                    os.chmod(CACHE / "ultima.png", 0o600)
+                except Exception:
+                    pass
                 if "moment" in pagina.title().lower():
                     return "bloqueado_cloudflare", []
                 return "sem_dados", []

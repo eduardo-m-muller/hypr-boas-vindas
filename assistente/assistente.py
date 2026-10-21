@@ -84,8 +84,6 @@ def main():
 
     mostrar_clima()
 
-    mostrar_tarefas()
-    time.sleep(0.4)
 
     aviso = aviso_sono(agora.hour)
     if aviso:
@@ -93,7 +91,10 @@ def main():
         mensagem, cor = aviso
         digitar(mensagem, cor + NEGRITO)
 
-    time.sleep(5)
+    time.sleep(0.4)
+    mostrar_tarefas()
+
+    time.sleep(6)
 
 
 if __name__ == "__main__":
