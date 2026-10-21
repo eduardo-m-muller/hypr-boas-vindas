@@ -6,6 +6,7 @@ from datetime import datetime
 
 from clima import obter_clima
 from config import CIDADE, NOME
+from tarefas import linhas_tarefas
 
 DIAS = ["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira",
         "sexta-feira", "sábado", "domingo"]
@@ -64,6 +65,11 @@ def mostrar_clima():
         digitar(f"Chance de chuva de {chuva}%: leva o guarda-chuva!", AMARELO + NEGRITO)
 
 
+def mostrar_tarefas():
+    for texto, cor in linhas_tarefas():
+        digitar(texto, cor)
+
+
 def main():
     agora = datetime.now()
     dia_semana = DIAS[agora.weekday()]
@@ -77,6 +83,9 @@ def main():
     time.sleep(0.4)
 
     mostrar_clima()
+
+    mostrar_tarefas()
+    time.sleep(0.4)
 
     aviso = aviso_sono(agora.hour)
     if aviso:
