@@ -7,6 +7,6 @@ e tarefas do Sala do Futuro).
 ## Status
 - [x] Menu rápida/animação
 - [x] Assistente: hora e aviso de sono
-- [ ] Clima
+- [x] Clima
 - [ ] Tarefas do Sala do Futuro
 - [ ] Visual animado
