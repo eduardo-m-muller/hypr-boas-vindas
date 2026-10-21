@@ -5,12 +5,12 @@ import env
 
 env.carregar()
 
-USUARIO = os.environ.get("SALA_USUARIO", "")
+RA = os.environ.get("SALA_RA", "")
 SENHA = os.environ.get("SALA_SENHA", "")
 
 
 def configurado():
-    return bool(USUARIO and SENHA)
+    return bool(RA and SENHA)
 
 
 def tarefas_pendentes():
