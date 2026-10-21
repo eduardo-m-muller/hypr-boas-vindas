@@ -1,0 +1,26 @@
+[usuario]
+nome = "Eduardo"
+
+[clima]
+ativo = true
+cidade = "Santo André"
+latitude = -23.6639
+longitude = -46.5383
+fuso = "America/Sao_Paulo"
+
+[tarefas]
+ativo = true
+cache_validade_min = 30
+
+[sono]
+ativo = true
+aviso_a_partir_de = 22
+critico_a_partir_de = 23
+madrugada_ate = 5
+
+[alertas.tarefa]
+aviso_horas = 72
+critico_horas = 24
+
+[alertas.chuva]
+aviso_acima_de = 50
