@@ -6,7 +6,7 @@ hora, aviso de sono, clima e tarefas pendentes do Sala do Futuro.
 ## Requisitos
 
 - Hyprland, Wofi e Kitty
-- Python 3.8 ou superior e FFmpeg (`ffplay`)
+- Python 3.8 ou superior
 - Firefox instalado pelo Playwright para coletar tarefas
 
 ## Instalação
@@ -22,10 +22,6 @@ venv/bin/python -m playwright install firefox
 Para consultar tarefas, copie `.env.example` para `.env` e preencha as
 credenciais do Sala do Futuro. Sem credenciais, o assistente continua
 funcionando, mas não consegue atualizar as tarefas.
-
-A voz usa o Edge TTS em português (Francisca), sem chave de API. Ela requer
-internet; as frases exibidas no terminal são enviadas ao serviço para síntese.
-Se a voz ou a rede falhar, o texto continua normalmente.
 
 Configure o Hyprland para executar `bin/boas-vindas.sh` após o login. O menu
 rápido fecha sem iniciar o assistente; a opção animada abre o assistente e
