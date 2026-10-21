@@ -7,6 +7,7 @@ from datetime import datetime
 from clima import obter_clima
 from config import CIDADE, NOME
 from tarefas import linhas_tarefas
+import voz
 
 DIAS = ["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira",
         "sexta-feira", "sábado", "domingo"]
@@ -44,6 +45,7 @@ def digitar(texto, cor="", atraso=0.03):
         sys.stdout.flush()
         time.sleep(atraso)
     sys.stdout.write(RESET + "\n")
+    voz.enfileirar(texto)
 
 
 def mostrar_clima():
@@ -94,7 +96,10 @@ def main_terminal():
     time.sleep(0.4)
     mostrar_tarefas()
 
-    time.sleep(6)
+    if voz.disponivel():
+        voz.aguardar(timeout=35)
+    else:
+        time.sleep(6)
 
 
 def obter_dados():
