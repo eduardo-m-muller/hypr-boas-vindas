@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Boas-vindas</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --fundo: #101713;
+      --painel: #19221c;
+      --texto: #f2f2e9;
+      --suave: #a3ada2;
+      --linha: #344138;
+      --lima: #d9f36a;
+      --coral: #ff806b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: var(--fundo);
+      color: var(--texto);
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+    }
+
+    body::before {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: 7px;
+      background: var(--lima);
+      content: "";
+      transform: scaleY(0);
+      transform-origin: top;
+      animation: revelar 700ms cubic-bezier(.2,.8,.2,1) 100ms forwards;
+    }
+
+    main {
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 38px 64px 30px;
+    }
+
+    header, footer, .linha-clima, .linha-tarefa {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header {
+      min-height: 44px;
+      border-bottom: 1px solid var(--linha);
+      padding-bottom: 18px;
+      animation: subir 650ms both;
+    }
+
+    .marca, .rotulo, .pista, .rodape, .etiqueta {
+      color: var(--suave);
+      font-size: 11px;
+      font-weight: 650;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    .marca { color: var(--texto); }
+    .marca span { color: var(--lima); }
+
+    button {
+      display: inline-grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border: 1px solid var(--linha);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--texto);
+      cursor: pointer;
+      font: inherit;
+      font-size: 22px;
+      transition: color 160ms ease, border-color 160ms ease, transform 160ms ease;
+    }
+
+    button:hover, button:focus-visible {
+      transform: rotate(90deg);
+      border-color: var(--lima);
+      color: var(--lima);
+      outline: none;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 32px;
+      padding: clamp(54px, 10vh, 100px) 0 54px;
+      animation: subir 750ms 120ms both;
+    }
+
+    .rotulo { margin: 0 0 20px; }
+
+    h1 {
+      max-width: 740px;
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(58px, 8vw, 102px);
+      font-weight: 400;
+      letter-spacing: 0;
+      line-height: .98;
+    }
+
+    h1 span { color: var(--lima); }
+
+    .data {
+      margin: 22px 0 0;
+      color: var(--suave);
+      font-size: 16px;
+      text-transform: capitalize;
+    }
+
+    .hora {
+      min-width: 210px;
+      padding: 4px 0 8px 28px;
+      border-left: 1px solid var(--linha);
+      text-align: right;
+    }
+
+    #hora {
+      display: block;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 60px;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .pista { display: block; margin-top: 12px; }
+
+    .aviso {
+      display: none;
+      width: fit-content;
+      margin-top: 22px;
+      padding: 10px 14px;
+      border-left: 3px solid var(--coral);
+      background: #2b211e;
+      color: #ffc0b4;
+      font-size: 14px;
+    }
+
+    .dados {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid var(--linha);
+      border-bottom: 1px solid var(--linha);
+      animation: subir 750ms 260ms both;
+    }
+
+    .bloco { min-width: 0; padding: 24px 28px 26px 0; }
+    .bloco + .bloco { padding-left: 30px; border-left: 1px solid var(--linha); }
+    .etiqueta { margin: 0 0 17px; }
+
+    .linha-clima { justify-content: flex-start; gap: 16px; }
+    #temperatura {
+      color: var(--lima);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 54px;
+      line-height: 1;
+    }
+
+    #descricao { color: var(--texto); font-size: 17px; text-transform: capitalize; }
+    .detalhe { margin: 12px 0 0; color: var(--suave); font-size: 13px; }
+    .linha-tarefa { justify-content: flex-start; gap: 14px; }
+
+    #quantidade {
+      color: var(--lima);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 48px;
+      line-height: 1;
+    }
+
+    #tarefas { display: grid; gap: 7px; color: var(--texto); font-size: 14px; }
+    #tarefas p { margin: 0; line-height: 1.45; }
+    #tarefas p + p { color: var(--suave); }
+
+    footer {
+      gap: 20px;
+      margin-top: auto;
+      padding-top: 26px;
+      animation: subir 750ms 380ms both;
+    }
+
+    .rodape { letter-spacing: 1px; }
+    .progresso { width: 130px; height: 2px; overflow: hidden; background: var(--linha); }
+    .progresso span { display: block; width: 100%; height: 100%; background: var(--lima); transform: scaleX(0); transform-origin: left; }
+    body.pronto .progresso span { animation: contar 24s linear forwards; }
+    body.saindo { animation: sumir 500ms ease forwards; }
+
+    @keyframes subir {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes revelar { to { transform: scaleY(1); } }
+    @keyframes contar { to { transform: scaleX(1); } }
+    @keyframes sumir { to { opacity: 0; transform: scale(.985); } }
+
+    @media (max-width: 700px) {
+      main { padding: 24px 28px 20px; }
+      .hero { grid-template-columns: 1fr; gap: 28px; padding: 56px 0 34px; }
+      h1 { font-size: clamp(54px, 14vw, 78px); }
+      .hora { min-width: 0; padding: 0; border: 0; text-align: left; }
+      #hora { font-size: 48px; }
+      .dados { grid-template-columns: 1fr; }
+      .bloco { padding: 21px 0; }
+      .bloco + .bloco { padding-left: 0; border-top: 1px solid var(--linha); border-left: 0; }
+      footer { margin-top: 34px; }
+      .rodape { font-size: 9px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+    }
+
+    :root {
+      color-scheme: dark;
+      --fundo: #030604;
+      --painel: transparent;
+      --texto: #d4e5d8;
+      --suave: #668071;
+      --linha: #163222;
+      --lima: #7cffaa;
+      --coral: #ffbd70;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--fundo);
+      color: var(--texto);
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+      font-size: 15px;
+    }
+
+    body::before {
+      position: fixed;
+      z-index: 2;
+      inset: 0;
+      width: auto;
+      pointer-events: none;
+      background: repeating-linear-gradient(transparent 0 3px, rgb(124 255 170 / 2%) 4px);
+      content: "";
+      transform: none;
+      animation: none;
+    }
+
+    main {
+      display: flex;
+      width: min(100%, 1120px);
+      min-height: 100vh;
+      flex-direction: column;
+      margin: 0 auto;
+      padding: clamp(28px, 7vh, 64px) clamp(24px, 8vw, 112px);
+    }
+
+    header, footer {
+      min-height: 0;
+      justify-content: space-between;
+      gap: 20px;
+      border: 0;
+      padding: 0;
+      animation: none;
+    }
+
+    .marca, .rodape, .pista {
+      color: var(--suave);
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 1px;
+    }
+
+    .marca { color: var(--texto); }
+    .marca span, .pista { color: var(--lima); }
+
+    button { display: none; }
+
+    .hero, .dados {
+      display: block;
+      border: 0;
+      animation: none;
+    }
+
+    .hero { padding: clamp(56px, 12vh, 120px) 0 0; }
+    .rotulo, .hora, .etiqueta, .linha-clima, .linha-tarefa { display: none; }
+
+    #log {
+      display: grid;
+      align-content: start;
+      gap: 10px;
+      max-height: min(58vh, 520px);
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    #log::-webkit-scrollbar { display: none; }
+    .linha-terminal { min-height: 1.5em; margin: 0; line-height: 1.6; overflow-wrap: anywhere; }
+    .destaque { color: var(--lima); }
+    .status { color: #8dffb3; }
+    .aguarde, .secundario { color: var(--suave); }
+    .alerta { color: var(--coral); }
+    .prompt { color: var(--lima); }
+
+    .prompt::after {
+      display: inline-block;
+      width: 8px;
+      height: 1em;
+      margin-left: 5px;
+      background: currentColor;
+      content: "";
+      vertical-align: -0.12em;
+      animation: cursor 900ms steps(2, start) infinite;
+    }
+
+    #hora {
+      display: block;
+      min-width: 0;
+      font-family: inherit;
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      text-align: right;
+    }
+
+    @keyframes cursor { to { visibility: hidden; } }
+
+    h1 {
+      max-width: none;
+      font-family: inherit;
+      font-size: clamp(28px, 5vw, 54px);
+      font-weight: 500;
+      line-height: 1.3;
+    }
+
+    h1 span { color: var(--lima); }
+    .data { margin: 14px 0 0; color: var(--suave); font-size: 14px; }
+
+    .aviso {
+      margin-top: 18px;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: var(--coral);
+      font-family: inherit;
+    }
+
+    .dados { padding-top: 20px; }
+    .bloco, .bloco + .bloco { padding: 0; border: 0; }
+    #tarefas { gap: 8px; font-family: inherit; font-size: 14px; }
+    #tarefas p + p { color: var(--suave); }
+
+    footer {
+      margin-top: auto;
+      padding-top: 36px;
+      animation: none;
+    }
+
+    .rodape { letter-spacing: 0; }
+    .progresso { display: none; }
+
+    @media (max-width: 700px) {
+      main { padding: 28px 24px; }
+      .hero { padding-top: 64px; }
+      h1 { font-size: 32px; }
+      footer { margin-top: auto; }
+      .rodape { font-size: 10px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body::before { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="terminal">
+    <header>
+      <div class="marca">HYPR<span>://</span>WELCOME</div>
+      <time id="hora" class="pista"></time>
+    </header>
+    <section class="hero" aria-label="Inicialização">
+      <p class="rotulo">Sessão de boas-vindas</p>
+      <div id="log" aria-live="polite" aria-atomic="false"></div>
+    </section>
+    <footer>
+      <span class="rodape">INICIALIZAÇÃO EM CURSO</span>
+      <span class="rodape">[ ESC ] SAIR</span>
+    </footer>
+  </main>
+
+  <script>
+    const log = document.querySelector("#log");
+    const reduzirMovimento = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let encerrando = false;
+
+    function atualizarRelogio() {
+      document.querySelector("#hora").textContent = new Date().toLocaleTimeString("pt-BR", {
+        hour: "2-digit", minute: "2-digit", second: "2-digit"
+      });
+    }
+
+    function pausa(ms) {
+      return new Promise(resolve => setTimeout(resolve, reduzirMovimento ? 0 : ms));
+    }
+
+    async function digitar(texto, classe = "saida", velocidade = 18) {
+      if (encerrando) return;
+      const linha = document.createElement("p");
+      linha.className = "linha-terminal " + classe;
+      log.append(linha);
+      for (const caractere of texto) {
+        if (encerrando) return;
+        linha.textContent += caractere;
+        if (!reduzirMovimento) await pausa(velocidade);
+      }
+      log.scrollTop = log.scrollHeight;
+    }
+
+    async function inicializar() {
+      await digitar("HYPR WELCOME SEQUENCE // 01", "destaque", 28);
+      await pausa(180);
+      await digitar("[  OK  ] Sessão gráfica estabelecida", "status");
+      await digitar("[ WAIT ] Sincronizando informações locais...", "aguarde");
+    }
+
+    const inicializacao = inicializar();
+
+    function fechar() {
+      if (encerrando) return;
+      encerrando = true;
+      document.body.classList.add("saindo");
+      setTimeout(() => window.fecharBoasVindas(), 450);
+    }
+
+    window.addEventListener("keydown", evento => {
+      if (evento.key === "Escape") fechar();
+    });
+
+    window.atualizarBoasVindas = async dados => {
+      await inicializacao;
+      const aguardando = log.querySelector(".aguarde");
+      if (aguardando) aguardando.remove();
+
+      const agora = new Date();
+      const data = new Intl.DateTimeFormat("pt-BR", {
+        weekday: "long", day: "numeric", month: "long"
+      }).format(agora);
+
+      await digitar("[ USER ] " + dados.saudacao + ", " + dados.nome + ".", "destaque");
+      await digitar("[ TIME ] " + data + " // " + agora.toLocaleTimeString("pt-BR", {
+        hour: "2-digit", minute: "2-digit"
+      }), "saida");
+
+      if (dados.aviso) await digitar("[ ALERT ] " + dados.aviso, "alerta");
+
+      if (dados.clima) {
+        const clima = dados.clima;
+        await digitar("[ CLIMA ] " + clima.descricao + ", " + Math.round(clima.temp) + "°C" +
+          " // sensação " + Math.round(clima.sensacao) + "°C", "saida");
+        await digitar("          mínima " + Math.round(clima.minima) + "° / máxima " +
+          Math.round(clima.maxima) + "°" + (clima.chuva >= 50 ? " / chuva " +
+          Math.round(clima.chuva) + "%" : ""), "secundario");
+      } else {
+        await digitar("[ CLIMA ] Dados indisponíveis no momento", "secundario");
+      }
+
+      const tarefas = dados.tarefas || [];
+      await digitar("[ SALA  ] " + (tarefas[0] || "Sala do Futuro indisponível."), "saida");
+      for (const tarefa of tarefas.slice(1, 3)) {
+        await digitar("          " + tarefa, "secundario");
+      }
+      await pausa(220);
+      await digitar("~/welcome $", "prompt", 55);
+      document.querySelector("footer .rodape").textContent = "SESSÃO ATIVA";
+      setTimeout(fechar, 24000);
+    };
+
+    atualizarRelogio();
+    setInterval(atualizarRelogio, 1000);
+  </script>
+</body>
+</html>

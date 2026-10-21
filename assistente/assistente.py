@@ -70,7 +70,7 @@ def mostrar_tarefas():
         digitar(texto, cor)
 
 
-def main():
+def main_terminal():
     agora = datetime.now()
     dia_semana = DIAS[agora.weekday()]
     mes = MESES[agora.month - 1]
@@ -95,6 +95,43 @@ def main():
     mostrar_tarefas()
 
     time.sleep(6)
+
+
+def obter_dados():
+    agora = datetime.now()
+    aviso = aviso_sono(agora.hour)
+    return {
+        "nome": NOME,
+        "saudacao": saudacao(agora.hour),
+        "aviso": aviso[0] if aviso else None,
+        "clima": obter_clima(),
+        "tarefas": [texto for texto, _ in linhas_tarefas()],
+    }
+
+
+def main():
+    if "--terminal" in sys.argv:
+        main_terminal()
+        return
+
+    try:
+        from interface import mostrar
+
+        mostrar(obter_dados)
+    except Exception as erro:
+        import shutil
+        import subprocess
+
+        kitty = shutil.which("kitty")
+        if kitty:
+            subprocess.run(
+                [kitty, "--class", "boas-vindas", "-e", sys.executable,
+                 __file__, "--terminal"],
+                check=False,
+            )
+        else:
+            print(f"Não foi possível abrir a tela gráfica: {erro}", file=sys.stderr)
+            main_terminal()
 
 
 if __name__ == "__main__":

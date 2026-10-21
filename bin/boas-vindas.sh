@@ -11,10 +11,6 @@ ESCOLHA=$(printf "⚡ Inicialização rápida\n✨ Inicialização com animaçã
 
 case "$ESCOLHA" in
   *animação*)
-    # marca que esta coletando e dispara a coleta em segundo plano
-    mkdir -p "$HOME/.cache/hypr-boas-vindas"
-    touch "$HOME/.cache/hypr-boas-vindas/coletando"
-    setsid "$DIR/coletar-tarefas.sh" >/dev/null 2>&1 &
     "$DIR/modo-animado.sh"
     ;;
   *)
