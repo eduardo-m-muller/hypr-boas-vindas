@@ -12,7 +12,7 @@ ESCOLHA=$(printf "⚡ Inicialização rápida\n✨ Inicialização com animaçã
 case "$ESCOLHA" in
   *animação*)
     cd "$DIR/.." || exit 1
-    exec kitty --class boas-vindas -e python3 -m core --executar
+    exec python3 -m core --executar
     ;;
   *)
     # rapida, Esc ou fechar o menu: nao faz nada
