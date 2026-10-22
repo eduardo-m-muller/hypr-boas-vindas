@@ -2,6 +2,7 @@
 import random
 from datetime import datetime
 
+from . import soltas
 from .models import Fala
 
 
@@ -75,7 +76,7 @@ def fala_clima(cfg, clima):
     return falas
 
 
-def abertura(cfg, hora, clima):
+def abertura(cfg, hora, clima, extras=None):
     nome = cfg["usuario"]["nome"]
     falas = []
     if hora:
@@ -91,6 +92,7 @@ def abertura(cfg, hora, clima):
         falas.append(Fala(f"Oi, {nome}!", "titulo", 0.4))
     if clima:
         falas.extend(_bloco(fala_clima(cfg, clima)))
+    falas.extend(soltas.escolher(cfg, extras or {}))
     if hora:
         falas.extend(_bloco(aviso_sono(cfg, hora)))
     return falas

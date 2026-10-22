@@ -46,3 +46,20 @@ acao = []
 atraso_digitacao = 0.03
 linha_em_branco_entre_blocos = false
 fechar_apos_s = 6
+
+
+[soltas]
+quantidade = 2
+papo_furado = true
+
+[pc]
+ativo = true
+
+[noticias]
+ativo = true
+fonte = "BBC News Brasil"
+feed = "https://feeds.bbci.co.uk/portuguese/rss.xml"
+max_itens = 5
+
+[curiosidade]
+ativo = true

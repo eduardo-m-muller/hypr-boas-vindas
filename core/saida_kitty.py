@@ -39,7 +39,7 @@ class SaidaKitty(Saida):
         sys.stdout.flush()
 
     def falar(self, fala):
-        self._digitar(fala.texto, CORES.get(fala.tom, CIANO))
+        self._digitar(fala.texto, CORES.get(fala.tom, CIANO), self.atraso * fala.ritmo)
         if fala.pausa > 0:
             if self.linha_em_branco:
                 print()

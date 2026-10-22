@@ -81,3 +81,27 @@ class Fala:
     texto: str
     tom: str = "normal"  # titulo | normal | aviso | critico | suave
     pausa: float = 0.0  # pausa depois da frase (fim de bloco = maior)
+    ritmo: float = 1.0  # velocidade: menor = fala mais rapido
+
+
+@dataclass
+class Pc:
+    uptime_min: int
+    ontem_min: Optional[int] = None  # minutos ligado ontem (None se nao deu pra calcular)
+
+
+@dataclass
+class Noticia:
+    titulo: str
+    link: str = ""
+
+
+@dataclass
+class Noticias:
+    fonte: str
+    itens: list = field(default_factory=list)  # lista de Noticia
+
+
+@dataclass
+class Curiosidade:
+    texto: str

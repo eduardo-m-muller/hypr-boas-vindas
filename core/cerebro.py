@@ -17,7 +17,8 @@ class Cerebro:
     def abertura(self):
         hora = self._dados("hora", esperar=2)
         clima = self._dados("clima", esperar=4)
-        for fala in falas.abertura(self.cfg, hora, clima):
+        extras = {nome: self._dados(nome, esperar=2) for nome in ("pc", "noticias", "curiosidade")}
+        for fala in falas.abertura(self.cfg, hora, clima, extras):
             self.saida.falar(fala)
 
     def escolher_modo(self):

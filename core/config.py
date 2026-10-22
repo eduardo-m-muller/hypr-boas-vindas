@@ -22,6 +22,15 @@ PADRAO = {
         "tarefa": {"aviso_horas": 72, "critico_horas": 24},
         "chuva": {"aviso_acima_de": 50},
     },
+    "soltas": {"quantidade": 2, "papo_furado": True},
+    "pc": {"ativo": True},
+    "noticias": {
+        "ativo": True,
+        "fonte": "BBC News Brasil",
+        "feed": "https://feeds.bbci.co.uk/portuguese/rss.xml",
+        "max_itens": 5,
+    },
+    "curiosidade": {"ativo": True},
 }
 
 
