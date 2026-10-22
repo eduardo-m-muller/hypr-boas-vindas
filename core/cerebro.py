@@ -17,8 +17,8 @@ class Cerebro:
     def abertura(self):
         hora = self._dados("hora", esperar=2)
         clima = self._dados("clima", esperar=4)
-        for texto in falas.abertura(self.cfg, hora, clima):
-            self.saida.falar(texto)
+        for fala in falas.abertura(self.cfg, hora, clima):
+            self.saida.falar(fala)
 
     def escolher_modo(self):
         opcoes = [(chave, modo["rotulo"]) for chave, modo in self.modos.items()]
@@ -33,8 +33,8 @@ class Cerebro:
         if not self.de_verdade:
             for comando in feitos:
                 print("[teste] abriria:", " ".join(comando))
-        for texto in falas.modo(chave, self.cfg, tarefas):
-            self.saida.falar(texto)
+        for fala in falas.modo(chave, self.cfg, tarefas):
+            self.saida.falar(fala)
 
     def executar(self):
         """O cofre ja deve ter sido iniciado por quem chamou (no clique)."""

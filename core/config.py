@@ -16,6 +16,7 @@ PADRAO = {
         "fuso": "America/Sao_Paulo",
     },
     "tarefas": {"ativo": True, "cache_validade_min": 30},
+    "visual": {"atraso_digitacao": 0.03, "linha_em_branco_entre_blocos": False, "fechar_apos_s": 6},
     "sono": {"ativo": True, "aviso_a_partir_de": 22, "critico_a_partir_de": 23, "madrugada_ate": 5},
     "alertas": {
         "tarefa": {"aviso_horas": 72, "critico_horas": 24},

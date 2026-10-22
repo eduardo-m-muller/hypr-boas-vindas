@@ -73,3 +73,11 @@ class Briefing:
 
     def para_dict(self):
         return asdict(self)
+
+
+@dataclass
+class Fala:
+    """Uma frase do assistente. O front decide como mostrar (cor, voz); o back so diz o tom."""
+    texto: str
+    tom: str = "normal"  # titulo | normal | aviso | critico | suave
+    pausa: float = 0.0  # pausa depois da frase (fim de bloco = maior)

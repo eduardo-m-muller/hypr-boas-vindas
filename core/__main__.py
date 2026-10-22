@@ -1,5 +1,6 @@
 """Uso:
-  python3 -m core              conversa de teste (NAO abre programas)
+  python3 -m core              conversa de teste, sem cores e SEM abrir programas
+  python3 -m core --visual     igual ao kitty (cores, digitacao), SEM abrir programas
   python3 -m core --executar   conversa de verdade (abre Steam, Firefox, etc.)
   python3 -m core --cofre      so o teste do cofre (tempos de cada modulo)
   python3 -m core --cofre --json
@@ -13,6 +14,7 @@ from .cerebro import Cerebro
 from .config import carregar
 from .registro import criar_cofre
 from .saida import SaidaTeste
+from .saida_kitty import SaidaKitty
 
 
 def teste_cofre(cofre):
@@ -41,7 +43,11 @@ def main():
         teste_cofre(cofre)
         return
     cofre.iniciar()
-    Cerebro(cfg, cofre, SaidaTeste(), de_verdade="--executar" in sys.argv).executar()
+    executar = "--executar" in sys.argv
+    visual = executar or "--visual" in sys.argv
+    saida = SaidaKitty(cfg) if visual else SaidaTeste()
+    Cerebro(cfg, cofre, saida, de_verdade=executar).executar()
+    saida.fechar()
 
 
 main()

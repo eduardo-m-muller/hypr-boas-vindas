@@ -40,3 +40,9 @@ acao = [["kitty", "--directory", "~/projetos"]]
 [modos.livre]
 rotulo = "Só mexer no PC"
 acao = []
+
+
+[visual]
+atraso_digitacao = 0.03
+linha_em_branco_entre_blocos = false
+fechar_apos_s = 6
