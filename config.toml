@@ -24,3 +24,19 @@ critico_horas = 24
 
 [alertas.chuva]
 aviso_acima_de = 50
+
+[modos.jogar]
+rotulo = "Jogar"
+acao = [["steam"]]
+
+[modos.estudar]
+rotulo = "Estudar"
+acao = [["firefox", "https://saladofuturo.educacao.sp.gov.br"]]
+
+[modos.programar]
+rotulo = "Programar / trabalhar"
+acao = [["kitty", "--directory", "~/projetos"]]
+
+[modos.livre]
+rotulo = "Só mexer no PC"
+acao = []
